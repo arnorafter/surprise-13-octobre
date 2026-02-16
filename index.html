@@ -41,9 +41,12 @@ window.onload = function() {
     const audio = document.getElementById("audioPlayer");
     const finalMessage = document.getElementById("finalMessage");
 
-    // ================= TEST RAPIDE =================
-    let targetDate = new Date(new Date().getTime() + 10*1000).getTime(); // 10 secondes dans le futur
-    // ==============================================
+    // ================= TEST AUJOURD'HUI 13H =================
+    // Heure de Paris (GMT+1/UTC+1 ou GMT+2 selon l'heure d'été)
+    let now = new Date();
+    let testDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 13, 0, 0); 
+    let targetDate = testDate.getTime();
+    // =======================================================
 
     function updateCountdown() {
         const now = new Date().getTime();
