@@ -41,10 +41,9 @@ window.onload = function() {
     const audio = document.getElementById("audioPlayer");
     const finalMessage = document.getElementById("finalMessage");
 
-    // ========== CONFIG ==========
-    let targetDate = new Date("2026-10-13T12:00:00+02:00").getTime();
-    // Pour test ultra-rapide, décommente cette ligne:
-    // targetDate = new Date(new Date().getTime() + 10*1000).getTime();
+    // ================= TEST RAPIDE =================
+    let targetDate = new Date(new Date().getTime() + 10*1000).getTime(); // 10 secondes dans le futur
+    // ==============================================
 
     function updateCountdown() {
         const now = new Date().getTime();
@@ -58,7 +57,7 @@ window.onload = function() {
                 music.classList.remove("hidden");
                 container.classList.remove("fade-out");
                 container.classList.add("fade-in");
-            }, 1000);
+            }, 500);
             return;
         }
 
@@ -71,14 +70,12 @@ window.onload = function() {
     }
 
     let interval = setInterval(updateCountdown, 1000);
-    updateCountdown(); // Appel immédiat pour affichage instantané
+    updateCountdown();
 
-    // Message final
     audio.addEventListener("play", function(){
         finalMessage.style.opacity = 1;
     });
 
-    // Cœurs
     function createHeart(){
         const heart = document.createElement("div");
         heart.classList.add("heart");
