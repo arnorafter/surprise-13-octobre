@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Pour toi ❤️</title>
-
 <style>
 body {
     margin: 0;
@@ -97,7 +96,6 @@ audio {
 }
 </style>
 </head>
-
 <body>
 
 <div class="container" id="container">
@@ -124,7 +122,7 @@ audio {
 
 <script>
 // Heure France (CEST)
-const targetDate = new Date("2026-02-16T12:00:00+02:00").getTime();
+const targetDate = new Date("2026-02-16T12:15:00+02:00").getTime();
 
 const countdown = document.getElementById("countdown");
 const music = document.getElementById("music");
@@ -134,7 +132,6 @@ const finalMessage = document.getElementById("finalMessage");
 
 // Compte à rebours
 const interval = setInterval(function() {
-
     const now = new Date().getTime();
     const distance = targetDate - now;
 
@@ -171,7 +168,7 @@ audio.addEventListener("play", function() {
     finalMessage.style.opacity = 1;
 });
 
-// Coeurs
+// Génération de coeurs
 function createHeart() {
     const heart = document.createElement("div");
     heart.classList.add("heart");
