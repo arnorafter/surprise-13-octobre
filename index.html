@@ -122,7 +122,7 @@ audio {
 
 <script>
 // Heure France (CEST)
-const targetDate = new Date("2026-02-16T12:15:00+02:00").getTime();
+const targetDate = new Date(new Date().getTime() + 2*60*1000).getTime(); // 2 minutes dans le futur
 
 const countdown = document.getElementById("countdown");
 const music = document.getElementById("music");
