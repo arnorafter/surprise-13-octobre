@@ -42,9 +42,13 @@ window.onload = function() {
     const audio = document.getElementById("audioPlayer");
     const finalMessage = document.getElementById("finalMessage");
 
-    // ================= TEST RAPIDE 10s =================
-    let targetDate = new Date(new Date().getTime() + 10*1000).getTime(); // 10 secondes dans le futur
-    // ===================================================
+    // ================= DATE CIBLE =================
+    // 13 octobre 2026, 12h, heure de Paris (UTC+2 en octobre)
+    // Convertir à UTC pour compatibilité navigateur
+    let targetDate = new Date(Date.UTC(2026, 9, 13, 10, 0, 0)).getTime(); 
+    // Octobre = mois 9 (JavaScript compte de 0 à 11)
+    // 12h Paris = 10h UTC (heure d’été)
+    // =============================================
 
     function updateCountdown() {
         const now = new Date().getTime();
