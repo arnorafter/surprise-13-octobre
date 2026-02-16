@@ -37,63 +37,21 @@ body::before {
     transition: opacity 2s ease;
 }
 
-.fade-out {
-    opacity: 0;
-}
+.fade-out { opacity: 0; }
+.fade-in { animation: fadeIn 2s forwards; }
 
-.fade-in {
-    animation: fadeIn 2s forwards;
-}
+@keyframes fadeIn { from {opacity:0;} to{opacity:1;} }
 
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
+h1 { font-size: 42px; }
+#message { font-size: 22px; max-width:600px; margin: 20px auto; }
+#countdown { font-size: 26px; margin-top: 20px; }
+audio { margin-top: 30px; }
+.hidden { display:none; }
+#finalMessage { margin-top:25px; font-size:20px; opacity:0; transition: opacity 2s ease; }
 
-h1 {
-    font-size: 42px;
-}
-
-#message {
-    font-size: 22px;
-    max-width: 600px;
-    margin: 20px auto;
-}
-
-#countdown {
-    font-size: 26px;
-    margin-top: 20px;
-}
-
-audio {
-    margin-top: 30px;
-}
-
-.hidden {
-    display: none;
-}
-
-/* Message final */
-#finalMessage {
-    margin-top: 25px;
-    font-size: 20px;
-    opacity: 0;
-    transition: opacity 2s ease;
-}
-
-/* Coeurs */
-.heart {
-    position: fixed;
-    bottom: -20px;
-    font-size: 20px;
-    animation: floatUp 8s linear infinite;
-    opacity: 0.6;
-}
-
-@keyframes floatUp {
-    0% { transform: translateY(0) scale(1); opacity: 0.6; }
-    100% { transform: translateY(-110vh) scale(1.5); opacity: 0; }
-}
+/* Cœurs */
+.heart { position:fixed; bottom:-20px; font-size:20px; animation:floatUp 8s linear infinite; opacity:0.6; }
+@keyframes floatUp { 0%{transform:translateY(0) scale(1); opacity:0.6;} 100%{transform:translateY(-110vh) scale(1.5); opacity:0;} }
 </style>
 </head>
 <body>
@@ -101,28 +59,26 @@ audio {
 <div class="container" id="container">
     <h1>Pour toi ❤️</h1>
 
-    <div id="message">
-        Parce que c'est ainsi que tout a commencé et ne finira jamais.
-    </div>
+    <div id="message">Parce que c'est ainsi que tout a commencé et ne finira jamais.</div>
 
-    <div id="countdown"></div>
+    <div id="countdown">Chargement…</div>
 
     <div id="music" class="hidden">
         <p>Maintenant… écoute ❤️</p>
         <audio id="audioPlayer" controls>
             <source src="chanson.mp3" type="audio/mpeg">
         </audio>
-
-        <div id="finalMessage">
-            Peu importe où la vie nous mène…  
-            je choisirai toujours de recommencer avec toi.
-        </div>
+        <div id="finalMessage">Peu importe où la vie nous mène… je choisirai toujours de recommencer avec toi.</div>
     </div>
 </div>
 
 <script>
-// Heure France (CEST)
-const targetDate = new Date(new Date().getTime() + 2*60*1000).getTime(); // 2 minutes dans le futur
+// ============ CONFIGURATION ============
+// Date réelle du 13 octobre 2026 midi France
+let targetDate = new Date("2026-10-13T12:00:00+02:00").getTime();
+
+// Pour TEST immédiat (commenter cette ligne pour le vrai jour)
+// targetDate = new Date(new Date().getTime() + 2*60*1000).getTime(); // 2 minutes dans le futur
 
 const countdown = document.getElementById("countdown");
 const music = document.getElementById("music");
@@ -130,60 +86,53 @@ const container = document.getElementById("container");
 const audio = document.getElementById("audioPlayer");
 const finalMessage = document.getElementById("finalMessage");
 
-// Compte à rebours
-const interval = setInterval(function() {
+// Fonction pour mettre à jour le compte à rebours
+function updateCountdown(){
     const now = new Date().getTime();
     const distance = targetDate - now;
 
-    if (distance < 0) {
+    if(distance < 0){
         clearInterval(interval);
-
+        countdown.innerHTML = "";
         // Transition douce
         container.classList.add("fade-out");
-
-        setTimeout(() => {
-            countdown.innerHTML = "";
+        setTimeout(()=>{
             music.classList.remove("hidden");
             container.classList.remove("fade-out");
             container.classList.add("fade-in");
         }, 2000);
-
         return;
     }
 
-    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    const days = Math.floor(distance / (1000*60*60*24));
+    const hours = Math.floor((distance % (1000*60*60*24))/(1000*60*60));
+    const minutes = Math.floor((distance % (1000*60*60))/(1000*60));
+    const seconds = Math.floor((distance % (1000*60))/1000);
 
-    countdown.innerHTML =
-        days + " jours " +
-        hours + " heures " +
-        minutes + " minutes " +
-        seconds + " secondes";
-}, 1000);
+    countdown.innerHTML = days+" jours "+hours+" heures "+minutes+" minutes "+seconds+" secondes";
+}
 
-// Quand elle lance la musique
-audio.addEventListener("play", function() {
+// Met à jour toutes les secondes
+let interval = setInterval(updateCountdown,1000);
+updateCountdown(); // Appel immédiat pour éviter le délai de 1 seconde
+
+// Message final quand la musique est jouée
+audio.addEventListener("play", function(){
     finalMessage.style.opacity = 1;
 });
 
-// Génération de coeurs
-function createHeart() {
+// Génération de cœurs
+function createHeart(){
     const heart = document.createElement("div");
     heart.classList.add("heart");
-    heart.innerHTML = "❤️";
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.fontSize = (Math.random() * 15 + 15) + "px";
-    heart.style.animationDuration = (Math.random() * 5 + 5) + "s";
+    heart.innerHTML="❤️";
+    heart.style.left = Math.random()*100+"vw";
+    heart.style.fontSize=(Math.random()*15+15)+"px";
+    heart.style.animationDuration=(Math.random()*5+5)+"s";
     document.body.appendChild(heart);
-
-    setTimeout(() => {
-        heart.remove();
-    }, 8000);
+    setTimeout(()=>heart.remove(),8000);
 }
-
-setInterval(createHeart, 800);
+setInterval(createHeart,800);
 </script>
 
 </body>
