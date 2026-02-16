@@ -28,8 +28,7 @@ audio { margin-top:30px; }
 <div id="music" class="hidden">
 <p>Maintenant… écoute ❤️</p>
 <audio id="audioPlayer" controls>
-<!-- Petit MP3 test public garanti jouable sur GitHub Pages -->
-<source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+<source src="chanson.mp3" type="audio/mpeg">
 Votre navigateur ne supporte pas le lecteur audio.
 </audio>
 <div id="finalMessage">Peu importe où la vie nous mène… je choisirai toujours de recommencer avec toi.</div>
@@ -43,9 +42,9 @@ window.onload = function() {
     const audio = document.getElementById("audioPlayer");
     const finalMessage = document.getElementById("finalMessage");
 
-    // ================= TEST IMMÉDIAT 10s =================
+    // ================= TEST RAPIDE 10s =================
     let targetDate = new Date(new Date().getTime() + 10*1000).getTime(); // 10 secondes dans le futur
-    // =====================================================
+    // ===================================================
 
     function updateCountdown() {
         const now = new Date().getTime();
