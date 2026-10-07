@@ -1,98 +1,745 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
 <meta charset="UTF-8">
-<title>Pour toi ❤️</title>
-<style>
-body { margin:0; padding:0; height:100vh; font-family:Arial, sans-serif; color:white; text-align:center; overflow:hidden;}
-body::before { content:""; position:fixed; top:0; left:0; width:100%; height:100%; background:url("photo.jpg") no-repeat center/cover; filter:blur(8px) brightness(0.5); z-index:-1;}
-.container { position:relative; top:50%; transform:translateY(-50%); padding:20px; opacity:1; transition:opacity 2s ease;}
-.fade-out { opacity:0; }
-.fade-in { animation:fadeIn 2s forwards; }
-@keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
-h1 { font-size:42px; }
-#message { font-size:22px; max-width:600px; margin:20px auto; }
-#countdown { font-size:26px; margin-top:20px; }
-audio { margin-top:30px; }
-.hidden { display:none; }
-#finalMessage { margin-top:25px; font-size:20px; opacity:0; transition:opacity 2s ease;}
-.heart { position:fixed; bottom:-20px; font-size:20px; animation:floatUp 8s linear infinite; opacity:0.6;}
-@keyframes floatUp { 0%{transform:translateY(0) scale(1); opacity:0.6;} 100%{transform:translateY(-110vh) scale(1.5); opacity:0;} }
-</style>
-</head>
-<body>
-<div class="container" id="container">
-<h1>Pour toi ❤️</h1>
-<div id="message">Parce que c'est ainsi que tout a commencé et ne finira jamais.</div>
-<div id="countdown">Chargement…</div>
-<div id="music" class="hidden">
-<p>Maintenant… écoute ❤️</p>
-<audio id="audioPlayer" controls>
-<source src="chanson.mp3" type="audio/mpeg">
-Votre navigateur ne supporte pas le lecteur audio.
-</audio>
-<div id="finalMessage">Peu importe où la vie nous mène… je choisirai toujours de recommencer avec toi.</div>
-</div>
-</div>
-<script>
-window.onload = function() {
-    const countdown = document.getElementById("countdown");
-    const music = document.getElementById("music");
-    const container = document.getElementById("container");
-    const audio = document.getElementById("audioPlayer");
-    const finalMessage = document.getElementById("finalMessage");
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    // ================= DATE CIBLE =================
-    // 13 octobre 2026, 13h, heure de Paris (UTC+2 en octobre)
-    // Convertir à UTC pour compatibilité navigateur
-    let targetDate = new Date(Date.UTC(2026, 9, 13, 18, 0, 0)).getTime(); 
-    // Octobre = mois 9 (JavaScript compte de 0 à 11)
-    // 12h Paris = 10h UTC (heure d’été)
-    // =============================================
+<title>Pour toi ❤️</title>
+
+<style>
+
+body {
+    margin:0;
+    padding:0;
+    height:100vh;
+    font-family:Arial, sans-serif;
+    color:white;
+    text-align:center;
+    overflow:hidden;
+}
+
+body::before {
+    content:"";
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:url("photo.jpg") no-repeat center/cover;
+    filter:blur(8px) brightness(0.5);
+    z-index:-1;
+}
+
+.container {
+    position:relative;
+    top:50%;
+    transform:translateY(-50%);
+    padding:20px;
+    opacity:1;
+    transition:opacity 2s ease;
+}
+
+.fade-out {
+    opacity:0;
+}
+
+.fade-in {
+    animation:fadeIn 2s forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity:0; }
+    to { opacity:1; }
+}
+
+h1 {
+    font-size:42px;
+}
+
+#message {
+    font-size:22px;
+    max-width:600px;
+    margin:20px auto;
+}
+
+#countdown {
+    font-size:26px;
+    margin-top:20px;
+}
+
+audio {
+    margin-top:30px;
+    max-width:90vw;
+}
+
+.hidden {
+    display:none;
+}
+
+#finalMessage {
+    margin-top:25px;
+    font-size:20px;
+    opacity:0;
+    transition:opacity 2s ease;
+}
+
+
+/* =========================================
+   VIDEO
+   ========================================= */
+
+#loveVideo {
+    display:none;
+    width:min(90vw, 600px);
+    max-height:60vh;
+    margin:20px auto 0;
+    border-radius:15px;
+    opacity:0;
+}
+
+#loveVideo.showVideo {
+    display:block;
+    animation:videoFadeIn 2s forwards;
+}
+
+@keyframes videoFadeIn {
+    from { opacity:0; }
+    to { opacity:1; }
+}
+
+
+/* =========================================
+   COEURS
+   ========================================= */
+
+.heart {
+    position:fixed;
+    bottom:-20px;
+    font-size:20px;
+    animation:floatUp 8s linear infinite;
+    opacity:0.6;
+    pointer-events:none;
+}
+
+@keyframes floatUp {
+
+    0% {
+        transform:translateY(0) scale(1);
+        opacity:0.6;
+    }
+
+    100% {
+        transform:translateY(-110vh) scale(1.5);
+        opacity:0;
+    }
+}
+
+
+/* =========================================
+   ADAPTATION TELEPHONE
+   ========================================= */
+
+@media (max-width:600px) {
+
+    h1 {
+        font-size:34px;
+    }
+
+    #message {
+        font-size:19px;
+    }
+
+    #countdown {
+        font-size:21px;
+    }
+
+    #finalMessage {
+        font-size:18px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="container" id="container">
+
+
+    <h1>Pour toi ❤️</h1>
+
+
+    <div id="message">
+        Parce que c'est ainsi que tout a commencé et ne finira jamais.
+    </div>
+
+
+    <div id="countdown">
+        Chargement…
+    </div>
+
+
+
+    <div id="music" class="hidden">
+
+
+        <p>Maintenant… écoute ❤️</p>
+
+
+        <audio
+            id="audioPlayer"
+            controls
+            preload="metadata">
+
+            <source
+                src="chanson.mp3"
+                type="audio/mpeg">
+
+            Votre navigateur ne supporte pas le lecteur audio.
+
+        </audio>
+
+
+
+        <video
+            id="loveVideo"
+            muted
+            playsinline
+            preload="metadata">
+
+            <source
+                src="video.mp4"
+                type="video/mp4">
+
+        </video>
+
+
+
+        <div id="finalMessage">
+
+            Peu importe où la vie nous mène…
+            je choisirai toujours de recommencer avec toi.
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+
+<script>
+
+
+window.onload = function() {
+
+
+
+    /* =========================================
+       ELEMENTS DE LA PAGE
+       ========================================= */
+
+
+    const countdown =
+        document.getElementById("countdown");
+
+
+    const music =
+        document.getElementById("music");
+
+
+    const container =
+        document.getElementById("container");
+
+
+    const audio =
+        document.getElementById("audioPlayer");
+
+
+    const video =
+        document.getElementById("loveVideo");
+
+
+    const finalMessage =
+        document.getElementById("finalMessage");
+
+
+
+
+    /* =========================================
+       DATE DEFINITIVE
+
+       13 OCTOBRE 2026
+       20H00 HEURE DE PARIS
+
+       Paris est en UTC+2 le 13 octobre 2026.
+
+       Donc :
+
+       20h00 Paris
+       =
+       18h00 UTC
+       ========================================= */
+
+
+    const targetDate =
+        new Date(
+            Date.UTC(
+                2026,
+                9,
+                13,
+                18,
+                0,
+                0
+            )
+        ).getTime();
+
+
+
+
+    /* =========================================
+       COMPTE A REBOURS
+       ========================================= */
+
 
     function updateCountdown() {
-        const now = new Date().getTime();
-        const distance = targetDate - now;
 
-        if(distance < 0){
+
+        const now =
+            new Date().getTime();
+
+
+        const distance =
+            targetDate - now;
+
+
+
+        /*
+        Dès que nous sommes arrivés
+        au 13 octobre à 20h00,
+        le compte à rebours disparaît
+        et le lecteur de musique apparaît.
+        */
+
+
+        if (distance <= 0) {
+
+
             clearInterval(interval);
+
+
             countdown.innerHTML = "";
+
+
             container.classList.add("fade-out");
-            setTimeout(()=>{
+
+
+
+            setTimeout(function() {
+
+
                 music.classList.remove("hidden");
+
+
                 container.classList.remove("fade-out");
+
+
                 container.classList.add("fade-in");
+
+
             }, 500);
+
+
             return;
+
         }
 
-        const days = Math.floor(distance / (1000*60*60*24));
-        const hours = Math.floor((distance % (1000*60*60*24))/(1000*60*60));
-        const minutes = Math.floor((distance % (1000*60*60))/(1000*60));
-        const seconds = Math.floor((distance % (1000*60))/1000);
 
-        countdown.innerHTML = days+" jours "+hours+" heures "+minutes+" minutes "+seconds+" secondes";
+
+
+        const days =
+            Math.floor(
+                distance /
+                (1000 * 60 * 60 * 24)
+            );
+
+
+
+        const hours =
+            Math.floor(
+                (
+                    distance %
+                    (1000 * 60 * 60 * 24)
+                )
+                /
+                (1000 * 60 * 60)
+            );
+
+
+
+        const minutes =
+            Math.floor(
+                (
+                    distance %
+                    (1000 * 60 * 60)
+                )
+                /
+                (1000 * 60)
+            );
+
+
+
+        const seconds =
+            Math.floor(
+                (
+                    distance %
+                    (1000 * 60)
+                )
+                /
+                1000
+            );
+
+
+
+
+        countdown.innerHTML =
+            days + " jours " +
+            hours + " heures " +
+            minutes + " minutes " +
+            seconds + " secondes";
+
+
     }
 
-    let interval = setInterval(updateCountdown, 1000);
+
+
+    const interval =
+        setInterval(
+            updateCountdown,
+            1000
+        );
+
+
     updateCountdown();
 
-    audio.addEventListener("play", function(){
-        finalMessage.style.opacity = 1;
-    });
 
-    function createHeart(){
-        const heart = document.createElement("div");
+
+
+    /* =========================================
+       SYNCHRONISATION AUTOMATIQUE
+       CHANSON + VIDEO
+       ========================================= */
+
+
+    let videoStarted = false;
+
+
+
+    /*
+    Quand elle appuie sur PLAY :
+
+    la chanson commence.
+
+    Le message final apparaît doucement.
+    */
+
+
+    audio.addEventListener(
+        "play",
+        function() {
+
+
+            finalMessage.style.opacity = 1;
+
+
+
+            /*
+            Si la vidéo avait déjà commencé
+            et que la chanson avait simplement
+            été mise en pause, on reprend
+            également la vidéo.
+            */
+
+
+            if (
+                videoStarted &&
+                video.paused &&
+                !video.ended
+            ) {
+
+
+                video.play().catch(
+                    function(error) {
+
+                        console.log(
+                            "Lecture vidéo :",
+                            error
+                        );
+
+                    }
+                );
+
+            }
+
+
+        }
+    );
+
+
+
+
+    /*
+    Surveillance de la progression
+    de la chanson.
+
+    Le navigateur connaît :
+
+    - la durée réelle de chanson.mp3
+    - la durée réelle de video.mp4
+
+    Il calcule :
+
+    durée chanson - durée vidéo
+
+    C'est exactement à ce moment-là
+    que la vidéo démarre.
+
+    Ainsi, la chanson et la vidéo
+    se terminent ensemble.
+    */
+
+
+    audio.addEventListener(
+        "timeupdate",
+        function() {
+
+
+            if (
+                !isFinite(audio.duration) ||
+                !isFinite(video.duration) ||
+                videoStarted
+            ) {
+
+                return;
+
+            }
+
+
+
+            const videoStartTime =
+                audio.duration -
+                video.duration;
+
+
+
+
+            if (
+                audio.currentTime >=
+                videoStartTime
+            ) {
+
+
+                videoStarted = true;
+
+
+
+                /*
+                On remet la vidéo
+                exactement au début.
+                */
+
+
+                video.currentTime = 0;
+
+
+
+                /*
+                SECURITE :
+
+                le son de la vidéo
+                est systématiquement coupé.
+                */
+
+
+                video.muted = true;
+
+                video.volume = 0;
+
+
+
+                /*
+                Apparition douce
+                de la vidéo.
+                */
+
+
+                video.classList.add(
+                    "showVideo"
+                );
+
+
+
+                /*
+                Démarrage de la vidéo.
+                */
+
+
+                video.play().catch(
+                    function(error) {
+
+                        console.log(
+                            "Lecture vidéo :",
+                            error
+                        );
+
+                    }
+                );
+
+
+            }
+
+
+        }
+    );
+
+
+
+
+    /* =========================================
+       PAUSE
+       ========================================= */
+
+
+    /*
+    Si elle met la chanson en pause
+    pendant la vidéo,
+    la vidéo s'arrête également.
+    */
+
+
+    audio.addEventListener(
+        "pause",
+        function() {
+
+
+            if (
+                videoStarted &&
+                !audio.ended
+            ) {
+
+
+                video.pause();
+
+
+            }
+
+
+        }
+    );
+
+
+
+
+    /* =========================================
+       FIN DE LA CHANSON
+       ========================================= */
+
+
+    audio.addEventListener(
+        "ended",
+        function() {
+
+
+            /*
+            Arrêt définitif de la vidéo.
+            */
+
+
+            video.pause();
+
+
+        }
+    );
+
+
+
+
+    /* =========================================
+       COEURS
+       ========================================= */
+
+
+    function createHeart() {
+
+
+        const heart =
+            document.createElement("div");
+
+
         heart.classList.add("heart");
-        heart.innerHTML="❤️";
-        heart.style.left=Math.random()*100+"vw";
-        heart.style.fontSize=(Math.random()*15+15)+"px";
-        heart.style.animationDuration=(Math.random()*5+5)+"s";
-        document.body.appendChild(heart);
-        setTimeout(()=>heart.remove(),8000);
+
+
+        heart.innerHTML =
+            "❤️";
+
+
+        heart.style.left =
+            Math.random() * 100 + "vw";
+
+
+        heart.style.fontSize =
+            (
+                Math.random() * 15 + 15
+            )
+            + "px";
+
+
+        heart.style.animationDuration =
+            (
+                Math.random() * 5 + 5
+            )
+            + "s";
+
+
+        document.body.appendChild(
+            heart
+        );
+
+
+
+        setTimeout(
+            function() {
+
+                heart.remove();
+
+            },
+            8000
+        );
+
+
     }
-    setInterval(createHeart,800);
+
+
+
+    setInterval(
+        createHeart,
+        800
+    );
+
+
 };
+
+
 </script>
+
+
 </body>
+
 </html>
